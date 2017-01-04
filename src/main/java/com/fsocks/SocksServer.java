@@ -40,7 +40,7 @@ public final class SocksServer {
         } catch(Exception e) {
             logger.warn("load config.properties error, default port 11080, auth false!");
         }
-        EventLoopGroup bossGroup = new NioEventLoopGroup(1);
+        EventLoopGroup bossGroup = new NioEventLoopGroup(16);
         EventLoopGroup workerGroup = new NioEventLoopGroup();
         try {
             ServerBootstrap b = new ServerBootstrap();

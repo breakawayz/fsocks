@@ -30,10 +30,12 @@ import io.netty.handler.codec.socks.SocksCmdStatus;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
 import io.netty.util.concurrent.Promise;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @ChannelHandler.Sharable
 public final class SocksServerConnectHandler extends SimpleChannelInboundHandler<SocksCmdRequest> {
-
+    private static final Logger logger = LoggerFactory.getLogger(SocksServerConnectHandler.class);
     private final Bootstrap b = new Bootstrap();
 
     @Override
@@ -58,6 +60,7 @@ public final class SocksServerConnectHandler extends SimpleChannelInboundHandler
                 }
             }
         });
+        logger.info("目标服务器 addressType : " + request.addressType()+ ", cmdType:" + request.cmdType()+ ", host:" + request.host() + ", port:" + request.port());
 
         final Channel inboundChannel = ctx.channel();
         b.group(inboundChannel.eventLoop())
@@ -69,6 +72,7 @@ public final class SocksServerConnectHandler extends SimpleChannelInboundHandler
         b.connect(request.host(), request.port()).addListener(new ChannelFutureListener() {
             public void operationComplete(ChannelFuture future) throws Exception {
                 if (future.isSuccess()) {
+                    logger.info("成功连接目标服务器 addressType : " + request.addressType()+ ", cmdType:" + request.cmdType()+ ", host:" + request.host() + ", port:" + request.port());
                     // Connection established use handler provided results
                 } else {
                     // Close the connection if the connection attempt has failed.

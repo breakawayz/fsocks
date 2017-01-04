@@ -21,12 +21,25 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.Properties;
 
 public final class SocksServer {
+    private static final Logger logger = LoggerFactory.getLogger(SocksServer.class);
 
-    static final int PORT = Integer.parseInt(System.getProperty("port", "1080"));
+    static int PORT = Integer.parseInt(System.getProperty("port", "1080"));
 
     public static void main(String[] args) throws Exception {
+        Properties properties = new Properties();
+
+        try {
+            properties.load(SocksServer.class.getResourceAsStream("/config.properties"));
+            PORT = Integer.parseInt(properties.getProperty("port"));
+        } catch(Exception e) {
+            logger.warn("load config.properties error, default port 11080, auth false!");
+        }
         EventLoopGroup bossGroup = new NioEventLoopGroup(1);
         EventLoopGroup workerGroup = new NioEventLoopGroup();
         try {

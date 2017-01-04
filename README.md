@@ -21,14 +21,7 @@
 - password.properties
 	- user=password 鉴权用户密码，每行一个
 
-- log4j.perperties
-	- log4j.logger.com.geccocrawler.socks5=info  默认级别是info只输出流量日志
+- logback
 
 ##扩展
-- 自定义鉴权方式
-
-	实现PasswordAuth接口，通过proxyServer.passwordAuth()方法设置。系统自带的是PropertiesPasswordAuth，基于properties文件的鉴权
-
-- 自定义代理日志
-
-	实现ProxyFlowLog接口，通过proxyServer.proxyFlowLog()方法设置。系统自带的是ProxyFlowLog4j，基于log4j的日志记录# fsocks
+- 使用logback生成日志

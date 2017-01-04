@@ -1,24 +1,23 @@
 # socks5-netty
-基于netty实现的socks5代理
+基于netty实现的socks代理
 
 ##安装
 
-- 下载git代码 ，mvn install
+- 下载git代码 ，mvn clean package appassembler:assemble
  
-- 或者直接下载bin/proxy
 
 ##运行
-- linux ： target/assembler/jsw/proxy/bin/proxy start
+- linux ： target/assembler/jsw/proxy/bin/SocksServer start
 	
-- windows ： target/assembler/jsw/proxy/bin/proxy.bat start
+- windows ： target/assembler/jsw/proxy/bin/SocksServer.bat start
 
 ##配置
 
 - config.properties
 	- port=11080   监听端口
-	- auth=true    是否鉴权
+	- auth=true    是否鉴权  (未启用)
 
-- password.properties
+- password.properties（为启用）
 	- user=password 鉴权用户密码，每行一个
 
 - logback

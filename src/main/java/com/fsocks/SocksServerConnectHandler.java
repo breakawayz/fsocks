@@ -93,6 +93,7 @@ public final class SocksServerConnectHandler extends SimpleChannelInboundHandler
                         public void operationComplete(final Future<Channel> future) throws Exception {
                             final Channel outboundChannel = future.getNow();
                             if (future.isSuccess()) {
+                                //目标服务器连接成功，返回success给client
                                 ChannelFuture responseFuture =
                                         ctx.channel().writeAndFlush(new DefaultSocks5CommandResponse(
                                                 Socks5CommandStatus.SUCCESS,
@@ -102,6 +103,7 @@ public final class SocksServerConnectHandler extends SimpleChannelInboundHandler
 
                                 responseFuture.addListener(new ChannelFutureListener() {
                                     public void operationComplete(ChannelFuture channelFuture) {
+                                        //建立client和remote的双向通道，之后数据就不经过local proxy了
                                         ctx.pipeline().remove(SocksServerConnectHandler.this);
                                         outboundChannel.pipeline().addLast(new RelayHandler(ctx.channel()));
                                         ctx.pipeline().addLast(new RelayHandler(outboundChannel));
@@ -114,6 +116,7 @@ public final class SocksServerConnectHandler extends SimpleChannelInboundHandler
                             }
                         }
                     });
+            //连接目标服务器
             logger.info("目标服务器 addressType : " + request.dstAddrType() + ", cmdType:" + request.type() + ", host:" + request.dstAddr() + ", port:" + request.dstPort());
             final Channel inboundChannel = ctx.channel();
             b.group(inboundChannel.eventLoop())

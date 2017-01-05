@@ -19,8 +19,11 @@ import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.util.concurrent.Promise;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public final class DirectClientHandler extends ChannelInboundHandlerAdapter {
+    private static final Logger logger = LoggerFactory.getLogger(DirectClientHandler.class);
 
     private final Promise<Channel> promise;
 
@@ -36,6 +39,8 @@ public final class DirectClientHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable throwable) {
+        logger.error("DirectClientHandler error, ", throwable);
+
         promise.setFailure(throwable);
     }
 }

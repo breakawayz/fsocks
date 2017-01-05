@@ -22,13 +22,17 @@ import io.netty.handler.codec.socksx.SocksMessage;
 import io.netty.handler.codec.socksx.v4.Socks4CommandRequest;
 import io.netty.handler.codec.socksx.v4.Socks4CommandType;
 import io.netty.handler.codec.socksx.v5.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @ChannelHandler.Sharable
 public final class SocksServerHandler extends SimpleChannelInboundHandler<SocksMessage> {
+    private static final Logger logger = LoggerFactory.getLogger(SocksServerHandler.class);
 
     public static final SocksServerHandler INSTANCE = new SocksServerHandler();
 
-    private SocksServerHandler() { }
+    private SocksServerHandler() {
+    }
 
     @Override
     public void channelRead0(ChannelHandlerContext ctx, SocksMessage socksRequest) throws Exception {
@@ -79,7 +83,8 @@ public final class SocksServerHandler extends SimpleChannelInboundHandler<SocksM
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable throwable) {
-        throwable.printStackTrace();
+        logger.error("SocksServerHandler error, ", throwable);
+//        throwable.printStackTrace();
         SocksServerUtils.closeOnFlush(ctx.channel());
     }
 }

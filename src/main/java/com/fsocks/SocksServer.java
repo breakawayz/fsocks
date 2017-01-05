@@ -37,7 +37,7 @@ public final class SocksServer {
         try {
             properties.load(SocksServer.class.getResourceAsStream("/config.properties"));
             PORT = Integer.parseInt(properties.getProperty("port"));
-        } catch(Exception e) {
+        } catch (Exception e) {
             logger.warn("load config.properties error, default port 11080, auth false!");
         }
         EventLoopGroup bossGroup = new NioEventLoopGroup(16);
@@ -49,7 +49,10 @@ public final class SocksServer {
                     .handler(new LoggingHandler(LogLevel.INFO))
                     .childHandler(new SocksServerInitializer());
             b.bind(PORT).sync().channel().closeFuture().sync();
+        } catch (Exception e) {
+            logger.error("SocksServer server error,", e);
         } finally {
+            logger.error("SocksServer is shutdown");
             bossGroup.shutdownGracefully();
             workerGroup.shutdownGracefully();
         }

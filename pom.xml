@@ -68,6 +68,9 @@
 				<artifactId>appassembler-maven-plugin</artifactId>
 				<version>1.10</version>
 				<configuration>
+					<!--<binFileExtensions>-->
+						<!--<unix>.sh</unix>-->
+					<!--</binFileExtensions>-->
 					<!-- 生成linux, windows两种平台的执行脚本 -->
 					<platforms>
 						<platform>windows</platform>
@@ -95,13 +98,6 @@
 							<id>SocksServer</id>
 							<!-- 启动类 -->
 							<mainClass>com.fsocks.SocksServer</mainClass>
-							<jvmSettings>
-								<extraArguments>
-									<extraArgument>-server</extraArgument>
-									<extraArgument>-Xmx2G</extraArgument>
-									<extraArgument>-Xms2G</extraArgument>
-								</extraArguments>
-							</jvmSettings>
 						</program>
 					</programs>
 				</configuration>

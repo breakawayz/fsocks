@@ -34,6 +34,7 @@ public final class SocksServerHandler extends SimpleChannelInboundHandler<SocksM
     private SocksServerHandler() {
     }
 
+    //与客户端进行握手
     @Override
     public void channelRead0(ChannelHandlerContext ctx, SocksMessage socksRequest) throws Exception {
         switch (socksRequest.version()) {
